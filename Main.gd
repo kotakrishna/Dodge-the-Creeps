@@ -13,7 +13,8 @@ func _ready():
 
 func game_over():
 	
-	if(playerLife>=1):
+	if(playerLife>=2):
+		$Music.play()
 		get_tree().call_group("mobs","queue_free")
 		$HUD.show_message("Hit")
 		$Player.start($StartPosition.position)
@@ -25,9 +26,12 @@ func game_over():
 		$HUD.show_game_over()
 		get_tree().call_group("mobs","queue_free")
 		$Player.kill_player()
+		$DeathSound.play()
+		$Music.stop()
 	pass # Replace with function body.
 
 func new_game():
+	$Music.play()
 	score = 0
 	playerLife = 3
 	$HUD.update_score("0")

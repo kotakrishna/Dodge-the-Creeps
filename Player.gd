@@ -4,7 +4,7 @@ signal hit;
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-export var speed = 100;
+export var speed = 400;
 
 var screen_size;
 

@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://fonts/Xolonium-Regular.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Mob.tscn" type="PackedScene" id=4]
 [ext_resource path="res://HUD.gd" type="Script" id=5]
+[ext_resource path="res://art/gameover.wav" type="AudioStream" id=6]
+[ext_resource path="res://art/House In a Forest Loop.ogg" type="AudioStream" id=7]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -21,12 +23,23 @@ outline_color = Color( 0.0941176, 0.207843, 0.486275, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
+[sub_resource type="InputEventAction" id=4]
+action = "start_game"
+
+[sub_resource type="ShortCut" id=5]
+shortcut = SubResource( 4 )
+
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
 mob_scene = ExtResource( 4 )
 
+[node name="ColorRect" type="ColorRect" parent="."]
+show_behind_parent = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Player" parent="." instance=ExtResource( 2 )]
-visible = false
 
 [node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
@@ -92,6 +105,7 @@ margin_right = 326.0
 margin_bottom = 580.0
 custom_fonts/font = SubResource( 3 )
 action_mode = 0
+shortcut = SubResource( 5 )
 text = "Start"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -100,6 +114,12 @@ __meta__ = {
 [node name="MessageTimer" type="Timer" parent="HUD"]
 wait_time = 2.0
 one_shot = true
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
 
 [connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
