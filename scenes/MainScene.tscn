@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
@@ -10,8 +10,6 @@
 [ext_resource path="res://Lifes.gd" type="Script" id=8]
 [ext_resource path="res://art/heart.png" type="Texture" id=9]
 [ext_resource path="res://Power.tscn" type="PackedScene" id=10]
-[ext_resource path="res://art/whiteImage.PNG" type="Texture" id=11]
-[ext_resource path="res://background.gd" type="Script" id=12]
 
 [sub_resource type="Curve2D" id=7]
 _data = {
@@ -24,7 +22,7 @@ _data = {
 }
 
 [sub_resource type="DynamicFont" id=2]
-size = 44
+size = 64
 font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=3]
@@ -99,13 +97,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PowerLevel" type="ProgressBar" parent="HUD"]
-margin_left = 125.0
+[node name="PlayerLifes" type="Label" parent="HUD"]
+visible = false
+margin_left = 4.0
 margin_top = 5.0
-margin_right = 334.0
+margin_right = 149.0
 margin_bottom = 83.0
 custom_fonts/font = SubResource( 2 )
-rounded = true
+text = "3"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="StartButton" type="Button" parent="HUD"]
 margin_left = 146.0
@@ -116,6 +119,19 @@ custom_fonts/font = SubResource( 3 )
 action_mode = 0
 shortcut = SubResource( 5 )
 text = "Start"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SettingsButton" type="Button" parent="HUD"]
+margin_left = 135.0
+margin_top = 603.0
+margin_right = 346.0
+margin_bottom = 687.0
+custom_fonts/font = SubResource( 3 )
+action_mode = 0
+shortcut = SubResource( 5 )
+text = "Settings"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -142,21 +158,25 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="SettingPage" type="Container" parent="HUD"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Music" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 7 )
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 6 )
 
-[node name="Background" type="Sprite" parent="."]
-position = Vector2( 241, 359 )
-scale = Vector2( 5.08511, 3.36449 )
-z_index = -5
-texture = ExtResource( 11 )
-script = ExtResource( 12 )
-
-[node name="backgroundChangeTimer" type="Timer" parent="Background"]
-wait_time = 10.0
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 480.0
+margin_bottom = 720.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="life_changed" from="." to="HUD/Lifes" method="on_player_life_changed"]
 [connection signal="hit" from="Player" to="." method="game_over"]
@@ -166,4 +186,5 @@ wait_time = 10.0
 [connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
 [connection signal="start_game" from="HUD" to="." method="_on_HUD_start_game"]
 [connection signal="pressed" from="HUD/StartButton" to="HUD" method="_on_StartButton_pressed"]
+[connection signal="pressed" from="HUD/SettingsButton" to="HUD" method="_on_Settings_pressed"]
 [connection signal="timeout" from="HUD/MessageTimer" to="HUD" method="_on_MessageTimer_timeout"]

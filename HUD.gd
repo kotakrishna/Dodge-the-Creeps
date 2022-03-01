@@ -9,12 +9,15 @@ signal start_game
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$PowerLevel.hide()
 	pass # Replace with function body.
 
 func show_message(text):
 	$Message.text = text
 	$Message.show()
 	$MessageTimer.start()
+	$PowerLevel.value = 0
+	$PowerLevel.show()
 
 
 func show_game_over():
@@ -26,6 +29,7 @@ func show_game_over():
 	$Message.show()
 	# Make a one-shot timer and wait for it to finish.
 	yield(get_tree().create_timer(1), "timeout")
+	$PowerLevel.hide()
 	$StartButton.show()
 
 
@@ -34,10 +38,14 @@ func update_score(score):
 	
 	
 func update_player_life(life):
-	$PlayerLifes.text = str(life);
+	#$PlayerLifes.text = str(life);
+	print("hit")
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+func update_power_level(value):
+	$PowerLevel.value = value;
 
 
 func _on_MessageTimer_timeout():
@@ -49,4 +57,9 @@ func _on_MessageTimer_timeout():
 func _on_StartButton_pressed():
 	$StartButton.hide()
 	emit_signal("start_game")
+	pass # Replace with function body.
+
+
+func _on_Settings_pressed():
+	$StartButton.hide()
 	pass # Replace with function body.

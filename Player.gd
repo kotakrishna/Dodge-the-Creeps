@@ -1,12 +1,17 @@
 extends Area2D
 
 signal hit;
+
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 export var speed = 400;
 
 var screen_size;
+
+var powerCounter = 0;
+
+var powerUpvalue = 100;
 
 
 # Called when the node enters the scene tree for the first time.
@@ -17,6 +22,11 @@ func _ready():
 
 func _physics_process(delta):
 	#get_user_input(delta);
+	
+	if(powerCounter == 0):
+		player_lost_power();
+	else:
+		powerCounter -= 1;
 	var velocity = Vector2.ZERO;
 	if(Input.is_action_pressed("ui_up")):
 		velocity.y -= 1
@@ -26,6 +36,8 @@ func _physics_process(delta):
 		velocity.x += 1
 	if(Input.is_action_pressed("ui_left")):
 		velocity.x -= 1
+	
+	
 	
 	#animation_player_movement();
 	
@@ -58,15 +70,38 @@ func _physics_process(delta):
 func start(pos):
 	position = pos
 	show()
+	#player_got_power()
+	$Sprite.hide();
 	$CollisionShape2D.disabled = false
 
 func kill_player():
 	hide() 
 	$CollisionShape2D.set_deferred("disabled", true)
 
+func player_got_power():
+	$AnimationPlayer.play("powerPlayer")
+	$CollisionShape2D.disabled = true;
+	$Sprite.show();
+	$AnimationPlayer.play();
+
+func player_lost_power():
+	$AnimationPlayer.stop();
+	$CollisionShape2D.disabled = false;
+	$Sprite.hide();
+
 func _on_Player_body_entered(body):
-	#hide() 
-	emit_signal("hit")
+	#hide()
+	#print(body.name)
+	if("Power" in body.name):
+		body.x();
+		player_got_power()
+		powerCounter += powerUpvalue;
+	else:
+		if(powerCounter>=1):
+			powerCounter = powerCounter/3;
+		else:	
+			player_lost_power();
+			emit_signal("hit")
 	# Must be deferred as we can't change physics properties on a physics callback.	
 	#$CollisionShape2D.set_deferred("disabled", true)
 	pass # Replace with function body.
