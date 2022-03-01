@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://CustomThemes/selectedButtom.tres" type="StyleBox" id=1]
+[ext_resource path="res://CustomThemes/unSelectedButton.tres" type="StyleBox" id=2]
+[ext_resource path="res://scripts/menuButtons.gd" type="Script" id=3]
+
+[node name="Button" type="Button"]
+margin_right = 113.0
+margin_bottom = 27.0
+custom_colors/font_color_focus = Color( 0.94902, 0.94902, 0.956863, 1 )
+custom_styles/hover = ExtResource( 1 )
+custom_styles/pressed = ExtResource( 1 )
+custom_styles/focus = ExtResource( 1 )
+custom_styles/normal = ExtResource( 2 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
